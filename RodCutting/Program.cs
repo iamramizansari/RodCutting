@@ -20,6 +20,7 @@ namespace RodCutting
 
         static int CutRod(int[] profit, int n)
         {
+            long time = getTime();
             if (n == 0) // first element is 0
                 return 0;
 
@@ -34,20 +35,24 @@ namespace RodCutting
             //Console.WriteLine("N={0}, Q={1}", n, q);
             Console.WriteLine();
 
+            Console.WriteLine("Time Taken: " + (getTime() - time));
             return q;
         }
 
         static int MemoizedCutRod(int[] profit, int n)
         {
+            long time = getTime();
             int[] r = new int[n];
             for (int i = 0; i < n; i++)
                 r[i] = int.MinValue;
 
+            Console.WriteLine("Time Taken: " + (getTime() - time));
             return MemoizedCutRodAux(profit, r, n);
         }
 
         static int MemoizedCutRodAux(int[] profit, int[] r, int n)
         {
+            long time = getTime();
             if (n > 0 && r[n - 1] >= 0)
                 return r[n - 1];
 
@@ -65,13 +70,14 @@ namespace RodCutting
             }
 
             r[n - 1] = q;
-
+            Console.WriteLine("Time Taken: " + (getTime() - time));
             return q;
         }
 
         static int BottomUpCutRod(int[] profit, int n)
         {
-            int[] r = new int[n + 1]; 
+            long time = getTime();
+            int[] r = new int[n + 1];
             r[0] = 0;
 
             for (int j = 1; j <= n; j++)
@@ -79,12 +85,17 @@ namespace RodCutting
                 int q = int.MinValue;
                 for (int i = 1; i <= j; i++)
                 {
-                    q = Math.Max(q, profit[i-1] + r[j - i]);
+                    q = Math.Max(q, profit[i - 1] + r[j - i]);
                 }
                 r[j] = q;
             }
-
+            Console.WriteLine("Time Taken: " + (getTime() - time));
             return r[n];
+        }
+
+        static long getTime()
+        {
+            return DateTimeOffset.Now.ToUnixTimeMilliseconds();
         }
     }
 }
